@@ -1,5 +1,5 @@
 import { DownloadIcon, Mail } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import github from "../assets/github.png";
 import linkedin from "../assets/linkedin.png";
 import CV from "../assets/CV.pdf";
@@ -44,7 +44,7 @@ const Hero = ({ darkMode }: HeroProps) => {
 
   // ── Animation variants ──────────────────────────────────────────────────────
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -54,35 +54,35 @@ const Hero = ({ darkMode }: HeroProps) => {
     },
   };
 
-  const fadeUp = {
+  const fadeUp: Variants = {
     hidden: { opacity: 0, y: 36 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
-  const iconPop = {
+  const iconPop: Variants = {
     hidden: { opacity: 0, y: 20, scale: 0.7 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.5, ease: [0.34, 1.4, 0.64, 1] },
+      transition: { duration: 0.5, ease: [0.34, 1.4, 0.64, 1] as const },
     },
   };
 
-  const slideInRight = {
+  const slideInRight: Variants = {
     hidden: { opacity: 0, x: 70 },
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.35 },
+      transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] as const, delay: 0.35 },
     },
   };
 
-  const hiBounce = {
+  const hiBounce: Variants = {
     hidden: { opacity: 0, scale: 0, rotate: -20 },
     visible: {
       opacity: 0.9,
@@ -90,13 +90,13 @@ const Hero = ({ darkMode }: HeroProps) => {
       rotate: 0,
       transition: {
         duration: 0.65,
-        ease: [0.34, 1.56, 0.64, 1],
+        ease: [0.34, 1.56, 0.64, 1] as const,
         delay: 1.0,
       },
     },
   };
 
-  const circleFade = {
+  const circleFade: Variants = {
     hidden: { opacity: 0, scale: 0.5 },
     visible: {
       opacity: 0.1,

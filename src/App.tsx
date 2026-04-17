@@ -3,8 +3,8 @@ import Hero from "./components/Hero";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import About from "./components/About";
-import Skills from "./components/Skills";
+// import About from "./components/About";
+// import Skills from "./components/Skills";
 
 const App = () => {
   const [darkmode, setDarkmode] = useState(true);
