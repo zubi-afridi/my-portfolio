@@ -22,7 +22,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
   const lightColors = {
     navBg: "bg-white/90 border-slate-200",
     textPrimary: "text-slate-900",
-    textSecondary: "text-slate-500",
+    textSecondary: "text-slate-600",
     textHover: "hover:text-indigo-600",
     textActive: "text-indigo-600",
     indicator: "from-indigo-500 to-blue-500",
@@ -36,8 +36,8 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
   const darkColors = {
     navBg: "bg-gradient-to-br from-slate-800/95 to-black border-white/10",
     textPrimary: "text-white",
-    textSecondary: "text-white/60",
-    textHover: "hover:text-white",
+    textSecondary: "text-white",
+    textHover: "hover:text-indigo-400",
     textActive: "text-indigo-400",
     indicator: "from-indigo-400 to-cyan-400",
     button: "from-indigo-500 via-indigo-600 to-blue-700",
@@ -85,7 +85,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
         variants={navVariants}
         initial="hidden"
         animate="visible"
-        className={`${colors.navBg} backdrop-blur-xl rounded-2xl shadow-2xl border px-4 md:px-6 py-2 w-auto min-w-[320px] md:min-w-fit`}
+        className={`${colors.navBg} backdrop-blur-xl rounded-2xl shadow-2xl border px-4 md:px-6 py-2 w-full max-w-[calc(100vw-2rem)] md:w-auto md:min-w-fit`}
       >
         <div className="flex items-center justify-between gap-4 md:gap-8">
           {/* Logo */}
@@ -98,7 +98,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             <span
               className={`text-lg md:text-xl font-bold tracking-tight ${colors.textPrimary}`}
             >
-              Portfolio<span className="text-indigo-500">.</span>
+              Zubair<span className="text-indigo-500">.</span>
             </span>
           </motion.a>
 
@@ -138,7 +138,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
           <div className="flex items-center gap-2 md:gap-3">
             <motion.button
               onClick={toggleDarkMode}
-              className={`p-2 rounded-xl cursor-pointer transition-all duration-300 ${colors.toggleBg} ${colors.toggleIcon}`}
+              className={`p-2 rounded-full cursor-pointer transition-all duration-300 ${colors.toggleBg} ${colors.toggleIcon}`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -152,7 +152,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                 boxShadow: "0px 0px 20px rgba(79, 70, 229, 0.3)",
               }}
               whileTap={{ scale: 0.95 }}
-              className={`hidden md:block px-5 py-2 text-sm font-bold rounded-xl bg-linear-to-r ${colors.button} text-white shadow-lg shrink-0`}
+              className={`hidden md:block px-6 py-2 text-sm font-bold rounded-full bg-linear-to-r ${colors.button} text-white shadow-lg shrink-0`}
             >
               Hire Me
             </motion.a>
@@ -160,7 +160,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             {/* Mobile Menu Toggle - NOW MATCHES THEME BUTTON SIZE AND STYLE */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`md:hidden p-2 rounded-xl transition-all duration-300 ${colors.mobileToggle} ${colors.textPrimary}`}
+              className={`md:hidden p-2 rounded-full transition-all duration-300 ${colors.mobileToggle} ${colors.textPrimary}`}
             >
               {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -214,7 +214,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                     href="#contact"
                     onClick={() => setIsMenuOpen(false)}
                     className={`
-                      block w-full py-4 text-center font-bold text-lg rounded-2xl 
+                      block w-full py-4 text-center font-bold text-lg rounded-full 
                       bg-linear-to-r ${colors.button} text-white 
                       shadow-lg shadow-indigo-500/20 active:scale-[0.97] transition-transform
                     `}

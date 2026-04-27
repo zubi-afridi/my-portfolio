@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { DownloadIcon, Mail } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import github from "../assets/github.png";
@@ -78,7 +79,11 @@ const Hero = ({ darkMode }: HeroProps) => {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] as const, delay: 0.35 },
+      transition: {
+        duration: 0.85,
+        ease: [0.22, 1, 0.36, 1] as const,
+        delay: 0.35,
+      },
     },
   };
 
@@ -105,12 +110,73 @@ const Hero = ({ darkMode }: HeroProps) => {
     },
   };
 
+  const floating: Variants = {
+    animate: {
+      y: [0, -20, 0],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  // ── Typewriter Logic ──────────────────────────────────────────────────────
+  const [headline, setHeadline] = useState("");
+  const fullHeadline = "Hi, I'm Zubair Khan";
+
+  const rotatingLines = [
+    "Frontend Website Developer",
+    "React & Next.js Developer",
+  ];
+
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  // Initial headline typewriter
+  useEffect(() => {
+    if (headline.length < fullHeadline.length) {
+      const timeout = setTimeout(() => {
+        setHeadline(fullHeadline.slice(0, headline.length + 1));
+      }, 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [headline]);
+
+  // Rotating typewriter
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentFullText = rotatingLines[currentLineIndex];
+
+      if (isDeleting) {
+        setCurrentText(currentFullText.substring(0, currentText.length - 1));
+        setTypingSpeed(50);
+      } else {
+        setCurrentText(currentFullText.substring(0, currentText.length + 1));
+        setTypingSpeed(100);
+      }
+
+      if (!isDeleting && currentText === currentFullText) {
+        setTimeout(() => setIsDeleting(true), 1500);
+      } else if (isDeleting && currentText === "") {
+        setIsDeleting(false);
+        setCurrentLineIndex((prev) => (prev + 1) % rotatingLines.length);
+        setTypingSpeed(100);
+      }
+    };
+
+    const timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentLineIndex, typingSpeed]);
+
   // ────────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="relative overflow-hidden min-h-screen flex flex-col">
+    <div className="relative min-h-screen flex flex-col">
       <section id="home" className="body-font z-10">
-        <div className="container mx-auto flex px-4 sm:px-8 lg:px-14 py-12 lg:py-32 flex-col-reverse lg:flex-row items-center justify-between lg:mt-0 mt-14">
+        <div className="container mx-auto flex px-4 sm:px-8 lg:px-14 py-12 lg:pt-32 flex-col-reverse lg:flex-row items-center justify-between lg:mt-0 mt-14">
           {/* ── Left: staggered children ── */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col items-center lg:items-start text-center lg:text-left mb-12 lg:mb-0"
@@ -129,15 +195,13 @@ const Hero = ({ darkMode }: HeroProps) => {
                   href={social.link}
                   target="_blank"
                   variants={iconPop}
-                  whileHover={{ scale: 1.12 }}
-                  className="transition-transform duration-300"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <img
                     src={social.icon}
                     alt={social.alt}
-                    className={`w-8 h-8 sm:w-10 sm:h-10 object-contain ${
-                      darkMode ? "" : "filter brightness-75"
-                    }`}
+                    className={`w-8 h-8 sm:w-10 sm:h-10 object-contain`}
                   />
                 </motion.a>
               ))}
@@ -146,20 +210,34 @@ const Hero = ({ darkMode }: HeroProps) => {
             {/* Heading */}
             <motion.h1
               variants={fadeUp}
-              className={`title-font text-3xl sm:text-4xl lg:text-5xl mb-4 font-bold ${theme.textPrimary}`}
+              className={`title-font text-3xl sm:text-4xl lg:text-5xl mb-3 font-bold ${theme.textPrimary}`}
             >
-              Hi, I'm Zubair Khan
+              {headline}
+              {headline.length < fullHeadline.length && (
+                <span className="blinking-cursor"></span>
+              )}
             </motion.h1>
+
+            {/* Rotating Sub-headline */}
+            <motion.div
+              variants={fadeUp}
+              className={`text-xl sm:text-2xl lg:text-3xl font-medium mb-6 min-h-[1.5em] ${theme.textPrimary} opacity-90`}
+            >
+              <span className="text-indigo-600 dark:text-indigo-400">
+                {currentText}
+                <span className="blinking-cursor"></span>
+              </span>
+            </motion.div>
 
             {/* Description */}
             <motion.p
               variants={fadeUp}
-              className={`mb-6 sm:mb-8 leading-relaxed max-w-md sm:max-w-lg ${theme.textSecondary}`}
+              className={`mb-6 sm:mb-8 leading-relaxed max-w-md sm:max-w-lg ${theme.textSecondary} text-lg`}
             >
-              I am a Frontend Developer with a passion for building beautiful
-              and user-friendly web applications. I am a quick learner and a
-              team player. I am looking for a challenging opportunity to
-              contribute my skills and grow as a developer.
+              I build clean, responsive, and performance-focused web interfaces
+              using React, Next.js, Tailwind CSS, and modern frontend tools. I
+              focus on creating smooth animations, intuitive layouts, and
+              user-friendly digital experiences.
             </motion.p>
 
             {/* Buttons */}
@@ -204,27 +282,33 @@ const Hero = ({ darkMode }: HeroProps) => {
             animate="visible"
           >
             <div className="relative w-4/5 sm:w-3/4 lg:w-full">
-              {/* Blob background behind hero image */}
-              <div
-                className="absolute inset-0 -z-10 scale-110"
-                // style={{
-                //   background: darkMode
-                //     ? "radial-gradient(ellipse at 55% 60%, rgba(99,102,241,0.38) 0%, rgba(79,70,229,0.22) 40%, rgba(139,92,246,0.10) 65%, transparent 80%)"
-                //     : "radial-gradient(ellipse at 55% 60%, rgba(99,102,241,0.25) 0%, rgba(139,92,246,0.14) 45%, transparent 75%)",
-                //   borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-                //   filter: "blur(22px)",
-                // }}
-              />
+              {/* Blob backgrounds behind hero image */}
+              <div className="absolute inset-0 -z-10 flex items-center justify-center">
+                <div
+                  className={`absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full mix-blend-multiply filter blur-[50px] opacity-30 animate-blob ${
+                    darkMode ? "bg-indigo-600" : "bg-indigo-400"
+                  }`}
+                />
+                <div
+                  className={`absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full mix-blend-multiply filter blur-[50px] opacity-30 animate-blob animation-delay-2000 ${
+                    darkMode ? "bg-purple-600" : "bg-blue-400"
+                  } -right-4 -top-4`}
+                />
+              </div>
 
-              <div className="relative overflow-hidden">
+              <motion.div
+                className="relative overflow-hidden"
+                variants={floating}
+                animate="animate"
+              >
                 <motion.img
                   src={HeroImage}
                   alt="Hero Image"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover drop-shadow-2xl"
                   whileHover={{ scale: 1.04 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 />
-              </div>
+              </motion.div>
 
               {/* Hi bubble: springs in after image settles */}
               <motion.img
