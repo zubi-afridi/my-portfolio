@@ -1,15 +1,14 @@
 import AboutImage from "../assets/about.png";
+import { Section, SectionContainer } from "./layout/SectionContainer";
+
 interface AboutProps {
   darkMode: boolean;
 }
 
 const About = ({ darkMode }: AboutProps) => {
   return (
-    <section
-      id="about"
-      className="min-h-screen flex items-center justify-center py-20"
-    >
-      <div className="container mx-auto px-4 sm:px-8 lg:px-14 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+    <Section id="about" className="flex items-center justify-center">
+      <SectionContainer className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2">
         <figure
           data-aos="fade-up"
           data-aos-delay="100"
@@ -42,7 +41,7 @@ const About = ({ darkMode }: AboutProps) => {
         >
           <header>
             <h1
-              className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-transparent bg-linear-to-r ${darkMode ? "from-indigo-400 to-blue-500" : "from-indigo-600 to-blue-600"} bg-clip-text`}
+              className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-transparent bg-linear-to-r ${darkMode ? "from-indigo-400 to-blue-500" : "from-indigo-600 to-blue-600"} bg-clip-text`}
               data-aos="fade-up"
               data-aos-delay="150"
               data-aos-duration="600"
@@ -51,7 +50,7 @@ const About = ({ darkMode }: AboutProps) => {
             </h1>
           </header>
           <p
-            className={`text-sm sm:text-base lg:text-lg xl:text-xl mb-6 sm:mb-8 leading-relaxed ${
+            className={`text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}
             data-aos="fade-up"
@@ -107,8 +106,8 @@ const About = ({ darkMode }: AboutProps) => {
             </div>
           </div>
         </article>
-      </div>
-    </section>
+      </SectionContainer>
+    </Section>
   );
 };
 

@@ -6,6 +6,12 @@ import linkedin from "../assets/linkedin.png";
 import CV from "../assets/CV.pdf";
 import HeroImage from "../assets/coder.png";
 import hi from "../assets/hi.png";
+import { SectionContainer } from "./layout/SectionContainer";
+
+const rotatingLines = [
+  "Frontend Website Developer",
+  "React & Next.js Developer",
+];
 
 interface HeroProps {
   darkMode: boolean;
@@ -125,11 +131,6 @@ const Hero = ({ darkMode }: HeroProps) => {
   const [headline, setHeadline] = useState("");
   const fullHeadline = "Hi, I'm Zubair Khan";
 
-  const rotatingLines = [
-    "Frontend Website Developer",
-    "React & Next.js Developer",
-  ];
-
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -174,9 +175,11 @@ const Hero = ({ darkMode }: HeroProps) => {
   // ────────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="relative min-h-screen flex flex-col">
-      <section id="home" className="body-font z-10">
-        <div className="container mx-auto flex px-4 sm:px-8 lg:px-14 py-12 lg:pt-32 flex-col-reverse lg:flex-row items-center justify-between lg:mt-0 mt-14">
+    <section
+      id="home"
+      className="body-font relative z-10 flex min-h-screen items-center overflow-hidden"
+    >
+      <SectionContainer className="flex flex-col-reverse items-center justify-between pb-16 pt-28 sm:pb-20 sm:pt-32 lg:flex-row lg:pb-24 lg:pt-36">
           {/* ── Left: staggered children ── */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col items-center lg:items-start text-center lg:text-left mb-12 lg:mb-0"
@@ -210,7 +213,7 @@ const Hero = ({ darkMode }: HeroProps) => {
             {/* Heading */}
             <motion.h1
               variants={fadeUp}
-              className={`title-font text-3xl sm:text-4xl lg:text-5xl mb-3 font-bold ${theme.textPrimary}`}
+              className={`title-font text-3xl md:text-4xl lg:text-5xl mb-3 font-bold ${theme.textPrimary}`}
             >
               {headline}
               {headline.length < fullHeadline.length && (
@@ -232,7 +235,7 @@ const Hero = ({ darkMode }: HeroProps) => {
             {/* Description */}
             <motion.p
               variants={fadeUp}
-              className={`mb-6 sm:mb-8 leading-relaxed max-w-md sm:max-w-lg ${theme.textSecondary} text-lg`}
+              className={`mb-6 sm:mb-8 leading-relaxed max-w-md sm:max-w-lg ${theme.textSecondary} text-base sm:text-lg`}
             >
               I build clean, responsive, and performance-focused web interfaces
               using React, Next.js, Tailwind CSS, and modern frontend tools. I
@@ -321,17 +324,16 @@ const Hero = ({ darkMode }: HeroProps) => {
               />
             </div>
           </motion.div>
-        </div>
+      </SectionContainer>
 
-        {/* Decorative circle blooms in slowly */}
-        <motion.div
-          variants={circleFade}
-          initial="hidden"
-          animate="visible"
-          className={`absolute -top-20 -left-20 w-40 h-40 sm:w-64 sm:h-64 ${theme.decorativeCircle} rounded-full mix-blend-multiply filter blur-3xl animate-pulse hidden sm:block`}
-        />
-      </section>
-    </div>
+      {/* Decorative circle blooms in slowly */}
+      <motion.div
+        variants={circleFade}
+        initial="hidden"
+        animate="visible"
+        className={`absolute -top-20 -left-20 w-40 h-40 sm:w-64 sm:h-64 ${theme.decorativeCircle} rounded-full mix-blend-multiply filter blur-3xl animate-pulse hidden sm:block`}
+      />
+    </section>
   );
 };
 

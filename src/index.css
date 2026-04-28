@@ -34,8 +34,13 @@ html {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .blinking-cursor {
@@ -49,10 +54,18 @@ html {
 }
 
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 .animate-blob {
@@ -65,4 +78,55 @@ html {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* css for loader */
+@keyframes loaderProgress {
+  0% {
+    width: 0%;
+  }
+
+  45% {
+    width: 55%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes loaderFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.loader-progress {
+  width: 0%;
+  animation: loaderProgress var(--loader-time, 1800ms) ease-in-out forwards;
+}
+
+.loader-fade-up {
+  animation: loaderFadeUp 700ms ease-out both;
+}
+
+.loader-glow-text {
+  text-shadow: 0 0 28px rgba(129, 140, 248, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-progress,
+  .loader-fade-up {
+    animation: none;
+  }
+
+  .loader-progress {
+    width: 100%;
+  }
 }

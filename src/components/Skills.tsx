@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import type { IconType } from "react-icons";
 import {
   FaHtml5,
   FaCss3Alt,
@@ -30,10 +31,11 @@ import {
   SiFigma,
 } from "react-icons/si";
 import { RiBearSmileLine } from "react-icons/ri";
+import { Section, SectionContainer } from "./layout/SectionContainer";
 
 interface Skill {
   name: string;
-  icon: any; // Using React Icons
+  icon: IconType;
 }
 
 const row1: Skill[] = [
@@ -164,11 +166,11 @@ const MarqueeRow = ({
 
 const Skills = ({ darkMode }: { darkMode: boolean }) => {
   return (
-    <section id="skills" className="py-20">
-      <div className="container mx-auto px-4 sm:px-8 lg:px-14 mb-16">
+    <Section id="skills">
+      <SectionContainer className="mb-12 sm:mb-16">
         <div className="text-center" data-aos="fade-up">
           <h2
-            className={`text-4xl md:text-5xl font-bold pb-2 mb-2 bg-linear-to-r ${
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold pb-2 mb-2 bg-linear-to-r ${
               darkMode
                 ? "from-indigo-400 to-blue-500"
                 : "from-indigo-600 to-blue-600"
@@ -180,7 +182,7 @@ const Skills = ({ darkMode }: { darkMode: boolean }) => {
           <div className="h-1.5 w-24 mx-auto rounded-full bg-linear-to-r from-indigo-500 to-blue-500 mb-8"></div>
 
           <p
-            className={`max-w-2xl mx-auto text-lg ${
+            className={`max-w-2xl mx-auto text-base sm:text-lg ${
               darkMode ? "text-gray-400" : "text-gray-600"
             }`}
           >
@@ -189,28 +191,30 @@ const Skills = ({ darkMode }: { darkMode: boolean }) => {
             applications.
           </p>
         </div>
-      </div>
+      </SectionContainer>
 
-      <div className="relative">
-        {/* Gradient overlays for the fade effect at edges */}
-        <div
-          className={`absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 pointer-events-none bg-linear-to-r ${
-            darkMode ? "from-gray-900" : "from-gray-50"
-          } to-transparent`}
-        ></div>
+      <SectionContainer>
+        <div className="relative">
+          {/* Gradient overlays for the fade effect at edges */}
+          <div
+            className={`absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 pointer-events-none bg-linear-to-r ${
+              darkMode ? "from-gray-900" : "from-gray-50"
+            } to-transparent`}
+          ></div>
 
-        <div
-          className={`absolute right-0 top-0 bottom-0 w-20 md:w-32 z-10 pointer-events-none bg-linear-to-l ${
-            darkMode ? "from-gray-900" : "from-gray-50"
-          } to-transparent`}
-        ></div>
+          <div
+            className={`absolute right-0 top-0 bottom-0 w-20 md:w-32 z-10 pointer-events-none bg-linear-to-l ${
+              darkMode ? "from-gray-900" : "from-gray-50"
+            } to-transparent`}
+          ></div>
 
-        <div className="space-y-4">
-          <MarqueeRow skills={row1} direction="left" darkMode={darkMode} />
-          <MarqueeRow skills={row2} direction="right" darkMode={darkMode} />
+          <div className="space-y-4">
+            <MarqueeRow skills={row1} direction="left" darkMode={darkMode} />
+            <MarqueeRow skills={row2} direction="right" darkMode={darkMode} />
+          </div>
         </div>
-      </div>
-    </section>
+      </SectionContainer>
+    </Section>
   );
 };
 

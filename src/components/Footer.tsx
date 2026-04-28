@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { SectionContainer } from "./layout/SectionContainer";
 
 const Footer = ({ darkMode }: { darkMode: boolean }) => {
   const currentYear = new Date().getFullYear();
@@ -22,9 +23,9 @@ const Footer = ({ darkMode }: { darkMode: boolean }) => {
 
   return (
     <footer
-      className={`${theme.bg} ${theme.border} border-t py-10 px-6 sm:px-12 lg:px-20 transition-all duration-300`}
+      className={`${theme.bg} ${theme.border} border-t py-10 transition-all duration-300`}
     >
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-4">
+      <SectionContainer className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:gap-4">
         {/* Left: Branding */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
           <h2
@@ -61,7 +62,7 @@ const Footer = ({ darkMode }: { darkMode: boolean }) => {
             <span className={theme.textPrimary}>Zubair Khan</span>
           </p>
         </div>
-      </div>
+      </SectionContainer>
     </footer>
   );
 };
