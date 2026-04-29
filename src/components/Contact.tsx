@@ -1,18 +1,49 @@
-import type { FormEvent } from "react";
 import { Mail, Send } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { AOS_DELAY_STEP, AOS_DURATION } from "../lib/animation";
 import { Section, SectionContainer } from "./layout/SectionContainer";
 
+type ContactFormValues = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+type SubmissionStatus = "idle" | "success" | "error";
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const contactEmailAddress = "zubairafridi2312@gmail.com";
+const formSubmitEndpoint = `https://formsubmit.co/ajax/${contactEmailAddress}`;
+
 const Contact = ({ darkMode }: { darkMode: boolean }) => {
-  const emailAddress = "zubairafridi2312@gmail.com";
+  const [submissionStatus, setSubmissionStatus] =
+    useState<SubmissionStatus>("idle");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<ContactFormValues>({
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
 
   const socialLinks = [
     {
       name: "Email",
-      value: emailAddress,
+      value: contactEmailAddress,
       icon: Mail,
-      link: `mailto:${emailAddress}`,
+      link: `mailto:${contactEmailAddress}`,
       external: false,
     },
     {
@@ -57,38 +88,74 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
     button: darkMode
       ? "from-indigo-500 via-indigo-600 to-blue-700 shadow-indigo-500/25"
       : "from-indigo-600 to-blue-600 shadow-indigo-500/20",
+    errorText: darkMode ? "text-rose-300" : "text-rose-600",
+    errorInput: darkMode
+      ? "border-rose-400/70 focus:border-rose-300"
+      : "border-rose-400 focus:border-rose-500",
+    successMessage: darkMode
+      ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-200"
+      : "border-emerald-200 bg-emerald-50 text-emerald-700",
+    errorMessage: darkMode
+      ? "border-rose-400/25 bg-rose-500/10 text-rose-200"
+      : "border-rose-200 bg-rose-50 text-rose-700",
   };
 
-  const fieldClass = `w-full rounded-[1.1rem] border px-5 py-3.5 text-sm sm:text-base font-medium outline-none transition-all duration-300 ${theme.input} ${theme.inputShadow}`;
+  const fieldClass = `w-full rounded-[1.1rem] border px-5 py-3.5 text-sm sm:text-base font-medium outline-none transition-all duration-200 ${theme.input} ${theme.inputShadow}`;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const getFieldClass = (hasError: boolean) =>
+    `${fieldClass} ${hasError ? theme.errorInput : ""}`;
 
-    const formData = new FormData(event.currentTarget);
-    const name = formData.get("name")?.toString().trim();
-    const email = formData.get("email")?.toString().trim();
-    const subject = formData.get("subject")?.toString().trim();
-    const message = formData.get("message")?.toString().trim();
+  const onSubmit: SubmitHandler<ContactFormValues> = async (values) => {
+    setSubmissionStatus("idle");
 
-    const metaLines = [
-      name ? `Name: ${name}` : "",
-      email ? `Email: ${email}` : "",
-      subject ? `Subject: ${subject}` : "",
-    ].filter(Boolean);
+    const payload = {
+      name: values.name.trim(),
+      email: values.email.trim(),
+      subject: values.subject.trim(),
+      message: values.message.trim(),
+      _subject: `Portfolio contact: ${values.subject.trim()}`,
+      _template: "table",
+      _captcha: "false",
+    };
 
-    const body = `${metaLines.join("\n")}${message ? `\n\n${message}` : ""}`;
-    const mailSubject = subject || "Portfolio contact";
+    try {
+      const response = await fetch(formSubmitEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(
-      mailSubject,
-    )}&body=${encodeURIComponent(body)}`;
+      if (!response.ok) {
+        throw new Error("Unable to send contact message.");
+      }
+
+      reset();
+      setSubmissionStatus("success");
+    } catch {
+      setSubmissionStatus("error");
+    }
   };
+
+  const handleFormChange = () => {
+    if (submissionStatus !== "idle") {
+      setSubmissionStatus("idle");
+    }
+  };
+
+  const isSubmitDisabled = isSubmitting || !isValid;
 
   return (
-    <Section id="contact" className="transition-colors duration-300">
+    <Section id="contact" className="transition-colors duration-200">
       <SectionContainer>
         <div>
-          <header className="text-center mb-16" data-aos="fade-up">
+          <header
+            className="text-center mb-16"
+            data-aos="fade-up"
+            data-aos-duration={AOS_DURATION}
+          >
             <h2
               className={`text-3xl md:text-4xl lg:text-5xl font-bold pb-2 mb-2 bg-linear-to-r ${theme.headingGradient} bg-clip-text text-transparent`}
             >
@@ -111,57 +178,197 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
             {/* Contact Form */}
             <motion.form
               data-aos="fade-right"
-              data-aos-delay="200"
-              onSubmit={handleSubmit}
+              data-aos-delay={AOS_DELAY_STEP}
+              data-aos-duration={AOS_DURATION}
+              onSubmit={handleSubmit(onSubmit)}
+              onChange={handleFormChange}
+              noValidate
               className="flex flex-col gap-5 sm:gap-6"
             >
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                  aria-label="Name"
-                  className={fieldClass}
-                />
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  aria-label="Email"
-                  className={fieldClass}
-                />
+                <div>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Name"
+                    aria-label="Name"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    className={getFieldClass(Boolean(errors.name))}
+                    {...register("name", {
+                      validate: (value) => {
+                        const trimmedValue = value.trim();
+
+                        if (!trimmedValue) {
+                          return "Name is required.";
+                        }
+
+                        return (
+                          trimmedValue.length >= 2 ||
+                          "Please enter at least 2 characters."
+                        );
+                      },
+                    })}
+                  />
+                  {errors.name && (
+                    <p
+                      id="name-error"
+                      className={`mt-2 px-1 text-xs font-semibold sm:text-sm ${theme.errorText}`}
+                    >
+                      {errors.name.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    aria-label="Email"
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    className={getFieldClass(Boolean(errors.email))}
+                    {...register("email", {
+                      validate: (value) => {
+                        const trimmedValue = value.trim();
+
+                        if (!trimmedValue) {
+                          return "Email is required.";
+                        }
+
+                        return (
+                          emailPattern.test(trimmedValue) ||
+                          "Please enter a valid email address."
+                        );
+                      },
+                    })}
+                  />
+                  {errors.email && (
+                    <p
+                      id="email-error"
+                      className={`mt-2 px-1 text-xs font-semibold sm:text-sm ${theme.errorText}`}
+                    >
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                placeholder="Subject"
-                aria-label="Subject"
-                className={fieldClass}
-              />
+              <div>
+                <input
+                  type="text"
+                  id="subject"
+                  placeholder="Subject"
+                  aria-label="Subject"
+                  aria-invalid={Boolean(errors.subject)}
+                  aria-describedby={
+                    errors.subject ? "subject-error" : undefined
+                  }
+                  className={getFieldClass(Boolean(errors.subject))}
+                  {...register("subject", {
+                    validate: (value) => {
+                      const trimmedValue = value.trim();
 
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                placeholder="Message"
-                aria-label="Message"
-                className={`${fieldClass} min-h-[180px] resize-none sm:min-h-[200px]`}
-              ></textarea>
+                      if (!trimmedValue) {
+                        return "Subject is required.";
+                      }
+
+                      return (
+                        trimmedValue.length >= 3 ||
+                        "Please enter at least 3 characters."
+                      );
+                    },
+                  })}
+                />
+                {errors.subject && (
+                  <p
+                    id="subject-error"
+                    className={`mt-2 px-1 text-xs font-semibold sm:text-sm ${theme.errorText}`}
+                  >
+                    {errors.subject.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <textarea
+                  id="message"
+                  rows={6}
+                  placeholder="Message"
+                  aria-label="Message"
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={
+                    errors.message ? "message-error" : undefined
+                  }
+                  className={`${getFieldClass(
+                    Boolean(errors.message),
+                  )} min-h-[180px] resize-none sm:min-h-[200px]`}
+                  {...register("message", {
+                    validate: (value) => {
+                      const trimmedValue = value.trim();
+
+                      if (!trimmedValue) {
+                        return "Message is required.";
+                      }
+
+                      return (
+                        trimmedValue.length >= 10 ||
+                        "Please enter a message of at least 10 characters."
+                      );
+                    },
+                  })}
+                ></textarea>
+                {errors.message && (
+                  <p
+                    id="message-error"
+                    className={`mt-2 px-1 text-xs font-semibold sm:text-sm ${theme.errorText}`}
+                  >
+                    {errors.message.message}
+                  </p>
+                )}
+              </div>
+
+              {submissionStatus === "success" && (
+                <p
+                  role="status"
+                  className={`rounded-2xl border px-5 py-4 text-sm font-semibold sm:text-base ${theme.successMessage}`}
+                >
+                  Your message has been sent successfully. I will respond within
+                  24 hours.
+                </p>
+              )}
+
+              {submissionStatus === "error" && (
+                <p
+                  role="alert"
+                  className={`rounded-2xl border px-5 py-4 text-sm font-semibold sm:text-base ${theme.errorMessage}`}
+                >
+                  Something went wrong while sending your message. Please try
+                  again.
+                </p>
+              )}
 
               <motion.button
                 type="submit"
-                whileHover={{
-                  scale: 1.015,
-                  boxShadow: "0px 0px 30px rgba(79, 70, 229, 0.42)",
-                }}
-                whileTap={{ scale: 0.98 }}
-                className={`flex w-full cursor-pointer items-center justify-center gap-3 rounded-full bg-linear-to-r ${theme.button} px-6 py-3.5 text-base font-bold text-white shadow-xl transition-all duration-300 sm:py-4`}
+                disabled={isSubmitDisabled}
+                aria-disabled={isSubmitDisabled}
+                whileHover={
+                  isSubmitDisabled
+                    ? undefined
+                    : {
+                        scale: 1.015,
+                        boxShadow: "0px 0px 30px rgba(79, 70, 229, 0.42)",
+                      }
+                }
+                whileTap={isSubmitDisabled ? undefined : { scale: 0.98 }}
+                className={`flex w-full items-center justify-center gap-3 rounded-full bg-linear-to-r ${theme.button} px-6 py-3.5 text-base font-bold text-white shadow-xl transition-all duration-200 sm:py-4 ${
+                  isSubmitDisabled
+                    ? "cursor-not-allowed opacity-70"
+                    : "cursor-pointer"
+                }`}
               >
-                Send message
+                {isSubmitting ? "Sending..." : "Send message"}
                 <Send size={18} strokeWidth={2.4} />
               </motion.button>
             </motion.form>
@@ -169,8 +376,9 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
             {/* Direct Channels Card */}
             <motion.aside
               data-aos="fade-left"
-              data-aos-delay="400"
-              className={`flex h-full flex-col justify-center rounded-[1.5rem] border px-6 py-8 text-center backdrop-blur-xl transition-all duration-300 sm:p-10 ${theme.card}`}
+              data-aos-delay={AOS_DELAY_STEP * 2}
+              data-aos-duration={AOS_DURATION}
+              className={`flex h-full flex-col justify-center rounded-[1.5rem] border px-6 py-8 text-center backdrop-blur-xl transition-all duration-200 sm:p-10 ${theme.card}`}
             >
               <div
                 className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[1rem] border ${theme.iconBox}`}
@@ -202,10 +410,10 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
                       target={social.external ? "_blank" : undefined}
                       rel={social.external ? "noopener noreferrer" : undefined}
                       whileHover={{ x: 6 }}
-                      className={`group flex w-full items-center gap-5 rounded-2xl px-1 py-1.5 transition-colors duration-300 ${theme.channelText}`}
+                      className={`group flex w-full items-center gap-5 rounded-2xl px-1 py-1.5 transition-colors duration-200 ${theme.channelText}`}
                     >
                       <Icon
-                        className={`h-6 w-6 shrink-0 transition-transform duration-300 group-hover:scale-110 ${theme.accent}`}
+                        className={`h-6 w-6 shrink-0 transition-transform duration-200 group-hover:scale-110 ${theme.accent}`}
                       />
                       <span className="min-w-0 break-words text-base font-normal sm:text-lg">
                         {social.value}

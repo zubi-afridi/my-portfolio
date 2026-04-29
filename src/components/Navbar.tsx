@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, type Variants, AnimatePresence } from "framer-motion";
 import { Menu, Moon, Sun, X } from "lucide-react";
+import { EASE_OUT, ENTRANCE_DURATION, QUICK_DURATION } from "../lib/animation";
 
 interface NavbarProps {
   darkMode: boolean;
@@ -66,7 +67,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: ENTRANCE_DURATION, ease: EASE_OUT },
     },
   };
 
@@ -75,7 +76,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
     visible: (i: number) => ({
       y: 0,
       opacity: 1,
-      transition: { delay: 0.1 + i * 0.05, duration: 0.3 },
+      transition: { delay: 0.06 + i * 0.04, duration: QUICK_DURATION },
     }),
   };
 
@@ -114,7 +115,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                 custom={i}
               >
                 <span
-                  className={`text-sm font-semibold transition-colors duration-300 ${
+                  className={`text-sm font-semibold transition-colors duration-200 ${
                     activeSection === item.name.toLowerCase()
                       ? colors.textActive
                       : `${colors.textSecondary} ${colors.textHover}`
@@ -137,8 +138,9 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
           {/* Controls (Toggle + Hire Button + Mobile Menu) */}
           <div className="flex items-center gap-2 md:gap-3">
             <motion.button
+              type="button"
               onClick={toggleDarkMode}
-              className={`p-2 rounded-full cursor-pointer transition-all duration-300 ${colors.toggleBg} ${colors.toggleIcon}`}
+              className={`p-2 rounded-full cursor-pointer transition-all duration-200 ${colors.toggleBg} ${colors.toggleIcon}`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -159,8 +161,9 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
 
             {/* Mobile Menu Toggle - NOW MATCHES THEME BUTTON SIZE AND STYLE */}
             <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`md:hidden p-2 rounded-full transition-all duration-300 ${colors.mobileToggle} ${colors.textPrimary}`}
+              className={`md:hidden p-2 rounded-full transition-all duration-200 ${colors.mobileToggle} ${colors.textPrimary}`}
             >
               {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -174,7 +177,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               initial={{ opacity: 0, scale: 0.95, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: QUICK_DURATION, ease: "easeOut" }}
               className="md:hidden absolute top-[115%] left-0 w-full px-2"
             >
               <div

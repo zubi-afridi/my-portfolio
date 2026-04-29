@@ -7,6 +7,7 @@ import BankWebsite from "../assets/bank.png";
 import Restaurant from "../assets/restaurant.png";
 
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
+import { AOS_DELAY_STEP, AOS_DURATION } from "../lib/animation";
 import { Section, SectionContainer } from "./layout/SectionContainer";
 
 interface Project {
@@ -59,9 +60,13 @@ const projects: Project[] = [
 
 const Projects = ({ darkMode }: { darkMode: boolean }) => {
   return (
-    <Section id="projects" className="transition-colors duration-300">
+    <Section id="projects" className="transition-colors duration-200">
       <SectionContainer>
-        <header className="text-center mb-16" data-aos="fade-up">
+        <header
+          className="text-center mb-16"
+          data-aos="fade-up"
+          data-aos-duration={AOS_DURATION}
+        >
           <h2
             className={`text-3xl md:text-4xl lg:text-5xl font-bold pb-2 mb-2 bg-linear-to-r ${
               darkMode
@@ -89,8 +94,9 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
             <div
               key={index}
               data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
-              data-aos-delay={100 * (index % 2)}
-              className={`group relative overflow-hidden rounded-3xl transition-all duration-500 ${
+              data-aos-delay={AOS_DELAY_STEP * (index % 2)}
+              data-aos-duration={AOS_DURATION}
+              className={`group relative overflow-hidden rounded-3xl transition-all duration-300 ${
                 darkMode
                   ? "bg-gray-800/40 border border-gray-700 hover:border-indigo-500/50"
                   : "bg-white border border-gray-200 hover:border-indigo-400 shadow-xl"
@@ -100,10 +106,10 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
 
-                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-6">
                   <div className="flex gap-4">
                     <motion.a
                       whileHover={{ scale: 1.1 }}
@@ -111,7 +117,7 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                       href={project.liveLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-colors"
+                      className="p-3 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-colors duration-200"
                     >
                       <Globe size={20} />
                     </motion.a>
@@ -122,7 +128,7 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-gray-900 text-white rounded-full hover:bg-black transition-colors border border-white/20"
+                      className="p-3 bg-gray-900 text-white rounded-full hover:bg-black transition-colors duration-200 border border-white/20"
                     >
                       <img
                         src={githubAsset}
@@ -167,7 +173,7 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     href={project.liveLink}
-                    className={`text-sm font-bold flex items-center gap-1 group-hover:text-indigo-500 transition-colors whitespace-nowrap ${
+                    className={`text-sm font-bold flex items-center gap-1 group-hover:text-indigo-500 transition-colors duration-200 whitespace-nowrap ${
                       darkMode ? "text-gray-300" : "text-gray-700"
                     }`}
                   >
@@ -180,14 +186,18 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center" data-aos="fade-up">
+        <div
+          className="mt-12 flex justify-center"
+          data-aos="fade-up"
+          data-aos-duration={AOS_DURATION}
+        >
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href="https://github.com/zubi-afridi?tab=repositories"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-indigo-500 px-8 py-3 text-sm sm:text-base font-bold text-white transition-colors hover:bg-indigo-600"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-indigo-500 px-8 py-3 text-sm sm:text-base font-bold text-white transition-colors duration-200 hover:bg-indigo-600"
           >
             More Projects
             <LuSquareArrowOutUpRight size={18} />

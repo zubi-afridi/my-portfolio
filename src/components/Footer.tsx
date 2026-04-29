@@ -23,7 +23,7 @@ const Footer = ({ darkMode }: { darkMode: boolean }) => {
 
   return (
     <footer
-      className={`${theme.bg} ${theme.border} border-t py-10 transition-all duration-300`}
+      className={`${theme.bg} ${theme.border} border-t py-10 transition-all duration-200`}
     >
       <SectionContainer className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:gap-4">
         {/* Left: Branding */}

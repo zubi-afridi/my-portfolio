@@ -7,6 +7,13 @@ import CV from "../assets/CV.pdf";
 import HeroImage from "../assets/coder.png";
 import hi from "../assets/hi.png";
 import { SectionContainer } from "./layout/SectionContainer";
+import {
+  EASE_OUT,
+  ENTRANCE_DURATION,
+  POP_EASE,
+  QUICK_DURATION,
+  STAGGER_INTERVAL,
+} from "../lib/animation";
 
 const rotatingLines = [
   "Frontend Website Developer",
@@ -55,8 +62,8 @@ const Hero = ({ darkMode }: HeroProps) => {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.13,
-        delayChildren: 0.25,
+        staggerChildren: STAGGER_INTERVAL,
+        delayChildren: 0.12,
       },
     },
   };
@@ -66,7 +73,7 @@ const Hero = ({ darkMode }: HeroProps) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const },
+      transition: { duration: ENTRANCE_DURATION, ease: EASE_OUT },
     },
   };
 
@@ -76,7 +83,7 @@ const Hero = ({ darkMode }: HeroProps) => {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.5, ease: [0.34, 1.4, 0.64, 1] as const },
+      transition: { duration: ENTRANCE_DURATION, ease: POP_EASE },
     },
   };
 
@@ -86,9 +93,9 @@ const Hero = ({ darkMode }: HeroProps) => {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 0.85,
-        ease: [0.22, 1, 0.36, 1] as const,
-        delay: 0.35,
+        duration: ENTRANCE_DURATION,
+        ease: EASE_OUT,
+        delay: 0.12,
       },
     },
   };
@@ -100,9 +107,9 @@ const Hero = ({ darkMode }: HeroProps) => {
       scale: 1,
       rotate: 0,
       transition: {
-        duration: 0.65,
-        ease: [0.34, 1.56, 0.64, 1] as const,
-        delay: 1.0,
+        duration: ENTRANCE_DURATION,
+        ease: POP_EASE,
+        delay: 0.46,
       },
     },
   };
@@ -112,7 +119,7 @@ const Hero = ({ darkMode }: HeroProps) => {
     visible: {
       opacity: 0.1,
       scale: 1,
-      transition: { duration: 1.4, ease: "easeOut", delay: 0.6 },
+      transition: { duration: ENTRANCE_DURATION, ease: "easeOut", delay: 0.18 },
     },
   };
 
@@ -120,7 +127,7 @@ const Hero = ({ darkMode }: HeroProps) => {
     animate: {
       y: [0, -20, 0],
       transition: {
-        duration: 4,
+        duration: 3.2,
         repeat: Infinity,
         ease: "easeInOut",
       },
@@ -141,7 +148,7 @@ const Hero = ({ darkMode }: HeroProps) => {
     if (headline.length < fullHeadline.length) {
       const timeout = setTimeout(() => {
         setHeadline(fullHeadline.slice(0, headline.length + 1));
-      }, 100);
+      }, 75);
       return () => clearTimeout(timeout);
     }
   }, [headline]);
@@ -153,18 +160,18 @@ const Hero = ({ darkMode }: HeroProps) => {
 
       if (isDeleting) {
         setCurrentText(currentFullText.substring(0, currentText.length - 1));
-        setTypingSpeed(50);
+        setTypingSpeed(38);
       } else {
         setCurrentText(currentFullText.substring(0, currentText.length + 1));
-        setTypingSpeed(100);
+        setTypingSpeed(75);
       }
 
       if (!isDeleting && currentText === currentFullText) {
-        setTimeout(() => setIsDeleting(true), 1500);
+        setTimeout(() => setIsDeleting(true), 1100);
       } else if (isDeleting && currentText === "") {
         setIsDeleting(false);
         setCurrentLineIndex((prev) => (prev + 1) % rotatingLines.length);
-        setTypingSpeed(100);
+        setTypingSpeed(75);
       }
     };
 
@@ -253,7 +260,7 @@ const Hero = ({ darkMode }: HeroProps) => {
                       boxShadow: "0px 0px 28px rgba(79,70,229,0.45)",
                     }}
                     whileTap={{ scale: 0.97 }}
-                    className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center text-white bg-linear-to-r ${theme.buttonPrimary} border-0 py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-colors duration-300`}
+                    className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center text-white bg-linear-to-r ${theme.buttonPrimary} border-0 py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-colors duration-200`}
                   >
                     <DownloadIcon className="w-4 h-4 sm:h-5 sm:w-5 mr-2" />
                     Download CV
@@ -267,7 +274,7 @@ const Hero = ({ darkMode }: HeroProps) => {
                       boxShadow: "0px 0px 28px rgba(79,70,229,0.25)",
                     }}
                     whileTap={{ scale: 0.97 }}
-                    className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center ${theme.buttonSecondaryText} border-2 ${theme.buttonSecondaryBorder} ${theme.buttonSecondaryHover} py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-all duration-300`}
+                    className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center ${theme.buttonSecondaryText} border-2 ${theme.buttonSecondaryBorder} ${theme.buttonSecondaryHover} py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-all duration-200`}
                   >
                     <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Contact Me
@@ -309,7 +316,7 @@ const Hero = ({ darkMode }: HeroProps) => {
                   alt="Hero Image"
                   className="w-full h-auto object-cover drop-shadow-2xl"
                   whileHover={{ scale: 1.04 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  transition={{ duration: QUICK_DURATION, ease: "easeOut" }}
                 />
               </motion.div>
 

@@ -1,4 +1,5 @@
 import AboutImage from "../assets/about.png";
+import { AOS_DELAY_STEP, AOS_DURATION } from "../lib/animation";
 import { Section, SectionContainer } from "./layout/SectionContainer";
 
 interface AboutProps {
@@ -11,8 +12,8 @@ const About = ({ darkMode }: AboutProps) => {
       <SectionContainer className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2">
         <figure
           data-aos="fade-up"
-          data-aos-delay="100"
-          data-aos-duration="600"
+          data-aos-delay={AOS_DELAY_STEP}
+          data-aos-duration={AOS_DURATION}
           className="flex flex-wrap justify-center gap-4 relative order-2 lg:order-1"
         >
           <div className="relative w-72 h-72 lg:w-80 lg:h-80 flex items-center justify-center">
@@ -20,31 +21,31 @@ const About = ({ darkMode }: AboutProps) => {
             <div
               className="absolute -inset-4 lg:-inset-10 bg-linear-to-l from-indigo-500 via-indigo-600 to-blue-700 rotate-12 star-shape z-0"
               data-aos="zoom-in"
-              data-aos-delay="200"
-              data-aos-duration="600"
+              data-aos-delay={AOS_DELAY_STEP * 2}
+              data-aos-duration={AOS_DURATION}
             ></div>
             <img
               src={AboutImage}
               alt="About Image"
-              className="relative w-full h-full object-contain z-10 transition-all duration-300 drop-shadow-2xl rounded-2xl"
+              className="relative w-full h-full object-contain z-10 transition-all duration-200 drop-shadow-2xl rounded-2xl"
               data-aos="zoom-in"
-              data-aos-delay="150"
-              data-aos-duration="600"
+              data-aos-delay={AOS_DELAY_STEP + 40}
+              data-aos-duration={AOS_DURATION}
             />
           </div>
         </figure>
         <article
           data-aos="fade-left"
-          data-aos-delay="100"
-          data-aos-duration="600"
+          data-aos-delay={AOS_DELAY_STEP}
+          data-aos-duration={AOS_DURATION}
           className="text-center lg:text-left relative order-1 lg:order-2"
         >
           <header>
             <h1
               className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-transparent bg-linear-to-r ${darkMode ? "from-indigo-400 to-blue-500" : "from-indigo-600 to-blue-600"} bg-clip-text`}
               data-aos="fade-up"
-              data-aos-delay="150"
-              data-aos-duration="600"
+              data-aos-delay={AOS_DELAY_STEP + 40}
+              data-aos-duration={AOS_DURATION}
             >
               About Me
             </h1>
@@ -54,8 +55,8 @@ const About = ({ darkMode }: AboutProps) => {
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}
             data-aos="fade-up"
-            data-aos-delay="200"
-            data-aos-duration="600"
+            data-aos-delay={AOS_DELAY_STEP * 2}
+            data-aos-duration={AOS_DURATION}
           >
             I’m Zubair Khan, a Frontend Developer focused on building clean,
             responsive, and interactive web interfaces. With a Software
@@ -69,8 +70,8 @@ const About = ({ darkMode }: AboutProps) => {
             <div
               className="text-center"
               data-aos="zoom-in"
-              data-aos-delay="250"
-              data-aos-duration="600"
+              data-aos-delay={AOS_DELAY_STEP * 2 + 40}
+              data-aos-duration={AOS_DURATION}
             >
               <div
                 className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}
@@ -88,8 +89,8 @@ const About = ({ darkMode }: AboutProps) => {
             <div
               className="text-center"
               data-aos="zoom-in"
-              data-aos-delay="300"
-              data-aos-duration="600"
+              data-aos-delay={AOS_DELAY_STEP * 3}
+              data-aos-duration={AOS_DURATION}
             >
               <div
                 className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}

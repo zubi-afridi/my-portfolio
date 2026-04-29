@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LOADER_DURATION, LOADER_EXIT_DURATION } from "../lib/animation";
 
 type PortfolioLoaderProps = {
   onFinish: () => void;
@@ -7,35 +8,41 @@ type PortfolioLoaderProps = {
 
 const PortfolioLoader = ({
   onFinish,
-  duration = 1800,
+  duration = LOADER_DURATION,
 }: PortfolioLoaderProps) => {
   const [showFullName, setShowFullName] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
   useEffect(() => {
+    let leaveTimer: number | undefined;
+
     const nameTimer = window.setTimeout(() => {
       setShowFullName(true);
-    }, 600);
+    }, 480);
 
     const finishTimer = window.setTimeout(() => {
       setIsLeaving(true);
 
-      window.setTimeout(() => {
+      leaveTimer = window.setTimeout(() => {
         onFinish();
-      }, 400);
+      }, LOADER_EXIT_DURATION);
     }, duration);
 
     return () => {
       window.clearTimeout(nameTimer);
       window.clearTimeout(finishTimer);
+      if (leaveTimer) {
+        window.clearTimeout(leaveTimer);
+      }
     };
   }, [duration, onFinish]);
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#0d182e] transition-opacity duration-400 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#0d182e] transition-opacity ${
         isLeaving ? "opacity-0" : "opacity-100"
       }`}
+      style={{ transitionDuration: `${LOADER_EXIT_DURATION}ms` }}
     >
       <div className="flex flex-col items-center justify-center px-6 text-center">
         {!showFullName ? (

@@ -4,6 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var savedTheme = window.localStorage.getItem("theme");
+
+          if (savedTheme === "light") {
+            document.documentElement.classList.remove("dark");
+            return;
+          }
+
+          document.documentElement.classList.add("dark");
+        } catch (_) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
     <title>my-porfolio-website</title>
   </head>
   <body>

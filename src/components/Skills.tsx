@@ -31,6 +31,7 @@ import {
   SiFigma,
 } from "react-icons/si";
 import { RiBearSmileLine } from "react-icons/ri";
+import { AOS_DURATION } from "../lib/animation";
 import { Section, SectionContainer } from "./layout/SectionContainer";
 
 interface Skill {
@@ -91,7 +92,7 @@ const MarqueeRow = ({
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         whileHover={{ scale: 1.05, y: -5 }}
-        className={`group/card flex shrink-0 items-center gap-3 px-6 py-4 rounded-2xl whitespace-nowrap transition-all duration-300
+        className={`group/card flex shrink-0 items-center gap-3 px-6 py-4 rounded-2xl whitespace-nowrap transition-all duration-200
           ${
             darkMode
               ? "bg-gray-800/40 border border-gray-700 hover:border-indigo-500/50 hover:shadow-[0_0_20px_rgba(79,70,229,0.1)]"
@@ -107,7 +108,7 @@ const MarqueeRow = ({
             skill.name === "GSAP"
               ? "[&_path]:fill-current [&_*]:fill-current"
               : ""
-          } group-hover/card:scale-110 transition-transform`}
+          } group-hover/card:scale-110 transition-transform duration-200`}
         />
         <span
           className={`text-lg font-medium ${
@@ -153,11 +154,11 @@ const MarqueeRow = ({
         }
 
         .animate-marquee-left {
-          animation: marquee-left 30s linear infinite;
+          animation: marquee-left 24s linear infinite;
         }
 
         .animate-marquee-right {
-          animation: marquee-right 30s linear infinite;
+          animation: marquee-right 24s linear infinite;
         }
       `}</style>
     </div>
@@ -168,7 +169,11 @@ const Skills = ({ darkMode }: { darkMode: boolean }) => {
   return (
     <Section id="skills">
       <SectionContainer className="mb-12 sm:mb-16">
-        <div className="text-center" data-aos="fade-up">
+        <div
+          className="text-center"
+          data-aos="fade-up"
+          data-aos-duration={AOS_DURATION}
+        >
           <h2
             className={`text-3xl md:text-4xl lg:text-5xl font-bold pb-2 mb-2 bg-linear-to-r ${
               darkMode
