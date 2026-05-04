@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
 import { DownloadIcon, Mail } from "lucide-react";
-import { motion, type Variants } from "framer-motion";
-import github from "../assets/github.png";
-import linkedin from "../assets/linkedin.png";
+import { motion, type Variants } from "motion/react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import CV from "../assets/CV.pdf";
-import HeroImage from "../assets/coder.png";
-import hi from "../assets/hi.png";
+import HeroImage from "../assets/coder.webp";
+import hi from "../assets/hi.webp";
 import { SectionContainer } from "./layout/SectionContainer";
 import {
   EASE_OUT,
@@ -24,13 +22,55 @@ interface HeroProps {
   darkMode: boolean;
 }
 
+type HeroHeadlineProps = {
+  fadeUp: Variants;
+  textPrimary: string;
+};
+
+const HeroHeadline = ({ fadeUp, textPrimary }: HeroHeadlineProps) => {
+  const fullHeadline = "Hi, I'm Zubair Khan";
+
+  return (
+    <motion.h1
+      variants={fadeUp}
+      className={`title-font text-3xl md:text-4xl lg:text-5xl mb-3 font-bold ${textPrimary}`}
+    >
+      {fullHeadline}
+    </motion.h1>
+  );
+};
+
+type RotatingRoleProps = {
+  fadeUp: Variants;
+  textPrimary: string;
+};
+
+const RotatingRole = ({ fadeUp, textPrimary }: RotatingRoleProps) => {
+  return (
+    <motion.div
+      variants={fadeUp}
+      className={`text-xl sm:text-2xl lg:text-3xl font-medium mb-6 min-h-[1.5em] ${textPrimary} opacity-90`}
+    >
+      <span className="text-indigo-600 dark:text-indigo-400">
+        {rotatingLines[0]}
+      </span>
+    </motion.div>
+  );
+};
+
 const Hero = ({ darkMode }: HeroProps) => {
   const socialIcons = [
-    { icon: github, alt: "github", link: "https://github.com/zubi-afridi" },
     {
-      icon: linkedin,
-      alt: "linkedin",
+      Icon: FaGithub,
+      label: "GitHub",
+      link: "https://github.com/zubi-afridi",
+      iconClass: darkMode ? "text-white" : "text-slate-900",
+    },
+    {
+      Icon: FaLinkedin,
+      label: "LinkedIn",
       link: "https://www.linkedin.com/in/zubair-khan-web-developer",
+      iconClass: "text-[#0a66c2]",
     },
   ];
 
@@ -135,58 +175,14 @@ const Hero = ({ darkMode }: HeroProps) => {
   };
 
   // ── Typewriter Logic ──────────────────────────────────────────────────────
-  const [headline, setHeadline] = useState("");
-  const fullHeadline = "Hi, I'm Zubair Khan";
-
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
-
-  // Initial headline typewriter
-  useEffect(() => {
-    if (headline.length < fullHeadline.length) {
-      const timeout = setTimeout(() => {
-        setHeadline(fullHeadline.slice(0, headline.length + 1));
-      }, 75);
-      return () => clearTimeout(timeout);
-    }
-  }, [headline]);
-
-  // Rotating typewriter
-  useEffect(() => {
-    const handleTyping = () => {
-      const currentFullText = rotatingLines[currentLineIndex];
-
-      if (isDeleting) {
-        setCurrentText(currentFullText.substring(0, currentText.length - 1));
-        setTypingSpeed(38);
-      } else {
-        setCurrentText(currentFullText.substring(0, currentText.length + 1));
-        setTypingSpeed(75);
-      }
-
-      if (!isDeleting && currentText === currentFullText) {
-        setTimeout(() => setIsDeleting(true), 1100);
-      } else if (isDeleting && currentText === "") {
-        setIsDeleting(false);
-        setCurrentLineIndex((prev) => (prev + 1) % rotatingLines.length);
-        setTypingSpeed(75);
-      }
-    };
-
-    const timer = setTimeout(handleTyping, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentLineIndex, typingSpeed]);
-
   // ────────────────────────────────────────────────────────────────────────────
 
   return (
     <section
       id="home"
-      className="body-font relative z-10 flex min-h-screen items-center overflow-hidden"
+      className="body-font relative z-10 flex items-center overflow-hidden"
     >
-      <SectionContainer className="flex flex-col-reverse items-center justify-between pb-16 pt-28 sm:pb-20 sm:pt-32 lg:flex-row lg:pb-24 lg:pt-36">
+      <SectionContainer className="flex flex-col-reverse items-center justify-between pb-6 pt-24 sm:pb-8 sm:pt-28 lg:flex-row lg:pb-10 lg:pt-32">
           {/* ── Left: staggered children ── */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col items-center lg:items-start text-center lg:text-left mb-12 lg:mb-0"
@@ -199,45 +195,27 @@ const Hero = ({ darkMode }: HeroProps) => {
               className="flex justify-center lg:justify-start gap-4 sm:gap-6 mb-6 sm:mb-7 w-full"
               variants={containerVariants}
             >
-              {socialIcons.map((social, index) => (
+              {socialIcons.map((social) => (
                 <motion.a
-                  key={index}
+                  key={social.label}
                   href={social.link}
                   target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit Zubair Khan on ${social.label}`}
                   variants={iconPop}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <img
-                    src={social.icon}
-                    alt={social.alt}
-                    className={`w-8 h-8 sm:w-10 sm:h-10 object-contain`}
+                  <social.Icon
+                    aria-hidden="true"
+                    className={`h-8 w-8 object-contain sm:h-10 sm:w-10 ${social.iconClass}`}
                   />
                 </motion.a>
               ))}
             </motion.div>
 
-            {/* Heading */}
-            <motion.h1
-              variants={fadeUp}
-              className={`title-font text-3xl md:text-4xl lg:text-5xl mb-3 font-bold ${theme.textPrimary}`}
-            >
-              {headline}
-              {headline.length < fullHeadline.length && (
-                <span className="blinking-cursor"></span>
-              )}
-            </motion.h1>
-
-            {/* Rotating Sub-headline */}
-            <motion.div
-              variants={fadeUp}
-              className={`text-xl sm:text-2xl lg:text-3xl font-medium mb-6 min-h-[1.5em] ${theme.textPrimary} opacity-90`}
-            >
-              <span className="text-indigo-600 dark:text-indigo-400">
-                {currentText}
-                <span className="blinking-cursor"></span>
-              </span>
-            </motion.div>
+            <HeroHeadline fadeUp={fadeUp} textPrimary={theme.textPrimary} />
+            <RotatingRole fadeUp={fadeUp} textPrimary={theme.textPrimary} />
 
             {/* Description */}
             <motion.p
@@ -253,33 +231,32 @@ const Hero = ({ darkMode }: HeroProps) => {
             {/* Buttons */}
             <motion.div variants={fadeUp} className="w-full pt-4 sm:pt-6">
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4">
-                <a href={CV} download className="w-full sm:w-auto">
-                  <motion.button
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: "0px 0px 28px rgba(79,70,229,0.45)",
-                    }}
-                    whileTap={{ scale: 0.97 }}
-                    className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center text-white bg-linear-to-r ${theme.buttonPrimary} border-0 py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-colors duration-200`}
-                  >
-                    <DownloadIcon className="w-4 h-4 sm:h-5 sm:w-5 mr-2" />
-                    Download CV
-                  </motion.button>
-                </a>
+                <motion.a
+                  href={CV}
+                  download
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0px 0px 28px rgba(79,70,229,0.45)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center text-white bg-linear-to-r ${theme.buttonPrimary} border-0 py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-colors duration-200`}
+                >
+                  <DownloadIcon className="w-4 h-4 sm:h-5 sm:w-5 mr-2" />
+                  Download CV
+                </motion.a>
 
-                <a href="#contact" className="w-full sm:w-auto">
-                  <motion.button
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: "0px 0px 28px rgba(79,70,229,0.25)",
-                    }}
-                    whileTap={{ scale: 0.97 }}
-                    className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center ${theme.buttonSecondaryText} border-2 ${theme.buttonSecondaryBorder} ${theme.buttonSecondaryHover} py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-all duration-200`}
-                  >
-                    <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Contact Me
-                  </motion.button>
-                </a>
+                <motion.a
+                  href="#contact"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0px 0px 28px rgba(79,70,229,0.25)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`cursor-pointer w-full sm:w-auto inline-flex items-center justify-center ${theme.buttonSecondaryText} border-2 ${theme.buttonSecondaryBorder} ${theme.buttonSecondaryHover} py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg font-semibold transition-all duration-200`}
+                >
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                  Contact Me
+                </motion.a>
               </div>
             </motion.div>
           </motion.div>
@@ -313,7 +290,12 @@ const Hero = ({ darkMode }: HeroProps) => {
               >
                 <motion.img
                   src={HeroImage}
-                  alt="Hero Image"
+                  alt="Zubair Khan frontend developer illustration"
+                  width={640}
+                  height={640}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className="w-full h-auto object-cover drop-shadow-2xl"
                   whileHover={{ scale: 1.04 }}
                   transition={{ duration: QUICK_DURATION, ease: "easeOut" }}
@@ -324,6 +306,10 @@ const Hero = ({ darkMode }: HeroProps) => {
               <motion.img
                 src={hi}
                 alt="Hi icon"
+                width={512}
+                height={512}
+                loading="eager"
+                decoding="async"
                 variants={hiBounce}
                 initial="hidden"
                 animate="visible"

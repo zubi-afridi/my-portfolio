@@ -1,4 +1,4 @@
-import AboutImage from "../assets/about.png";
+import AboutImage from "../assets/about.webp";
 import { AOS_DELAY_STEP, AOS_DURATION } from "../lib/animation";
 import { Section, SectionContainer } from "./layout/SectionContainer";
 
@@ -8,25 +8,32 @@ interface AboutProps {
 
 const About = ({ darkMode }: AboutProps) => {
   return (
-    <Section id="about" className="flex items-center justify-center">
+    <Section
+      id="about"
+      className="flex items-center justify-center !pt-4 sm:!pt-6 lg:!pt-8"
+    >
       <SectionContainer className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2">
         <figure
           data-aos="fade-up"
           data-aos-delay={AOS_DELAY_STEP}
           data-aos-duration={AOS_DURATION}
-          className="flex flex-wrap justify-center gap-4 relative order-2 lg:order-1"
+          className="flex flex-wrap justify-center gap-4 relative order-1"
         >
           <div className="relative w-72 h-72 lg:w-80 lg:h-80 flex items-center justify-center">
             {/* Image background */}
             <div
-              className="absolute -inset-4 lg:-inset-10 bg-linear-to-l from-indigo-500 via-indigo-600 to-blue-700 rotate-12 star-shape z-0"
+              className="about-image-blob absolute -inset-4 -rotate-6 lg:-inset-10"
               data-aos="zoom-in"
               data-aos-delay={AOS_DELAY_STEP * 2}
               data-aos-duration={AOS_DURATION}
             ></div>
             <img
               src={AboutImage}
-              alt="About Image"
+              alt="Zubair Khan profile illustration"
+              width={577}
+              height={433}
+              loading="lazy"
+              decoding="async"
               className="relative w-full h-full object-contain z-10 transition-all duration-200 drop-shadow-2xl rounded-2xl"
               data-aos="zoom-in"
               data-aos-delay={AOS_DELAY_STEP + 40}
@@ -38,7 +45,7 @@ const About = ({ darkMode }: AboutProps) => {
           data-aos="fade-left"
           data-aos-delay={AOS_DELAY_STEP}
           data-aos-duration={AOS_DURATION}
-          className="text-center lg:text-left relative order-1 lg:order-2"
+          className="text-center lg:text-left relative order-2"
         >
           <header>
             <h1

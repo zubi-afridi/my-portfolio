@@ -1,6 +1,6 @@
 import { Mail, Send } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { AOS_DELAY_STEP, AOS_DURATION } from "../lib/animation";

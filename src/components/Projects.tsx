@@ -1,10 +1,10 @@
 import { Globe } from "lucide-react";
-import { motion } from "framer-motion";
-import githubAsset from "../assets/github.png";
-import livyAsset from "../assets/livy.png";
-import BrFunnel from "../assets/br-funnel.png";
-import BankWebsite from "../assets/bank.png";
-import Restaurant from "../assets/restaurant.png";
+import { motion } from "motion/react";
+import { FaGithub } from "react-icons/fa";
+import livyAsset from "../assets/optimized/livy.webp";
+import BrFunnel from "../assets/optimized/br-funnel.webp";
+import BankWebsite from "../assets/optimized/bank.webp";
+import Restaurant from "../assets/optimized/restaurant.webp";
 
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { AOS_DELAY_STEP, AOS_DURATION } from "../lib/animation";
@@ -106,6 +106,10 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                 <img
                   src={project.image}
                   alt={project.title}
+                  width={960}
+                  height={540}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
 
@@ -117,9 +121,10 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                       href={project.liveLink}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`Open live demo for ${project.title}`}
                       className="p-3 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-colors duration-200"
                     >
-                      <Globe size={20} />
+                      <Globe aria-hidden="true" size={20} />
                     </motion.a>
 
                     <motion.a
@@ -128,13 +133,10 @@ const Projects = ({ darkMode }: { darkMode: boolean }) => {
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`Open GitHub repository for ${project.title}`}
                       className="p-3 bg-gray-900 text-white rounded-full hover:bg-black transition-colors duration-200 border border-white/20"
                     >
-                      <img
-                        src={githubAsset}
-                        alt="GitHub"
-                        className="w-5 h-5 invert"
-                      />
+                      <FaGithub aria-hidden="true" className="h-5 w-5" />
                     </motion.a>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowUp } from "lucide-react";
 import { EASE_OUT, QUICK_DURATION } from "../lib/animation";
 
@@ -13,21 +13,14 @@ const ScrollToTop = ({ darkMode }: ScrollToTopProps) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const skillsSection = document.getElementById("skills");
       const scrollTop = window.scrollY;
       const scrollHeight =
         document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      const visibilityOffset = window.innerWidth < 640 ? 70 : 110;
 
       setScrollProgress(Math.min(100, Math.max(0, progress)));
-
-      if (!skillsSection) {
-        setIsVisible(false);
-        return;
-      }
-
-      const triggerPoint = skillsSection.offsetTop - window.innerHeight * 0.15;
-      setIsVisible(scrollTop >= triggerPoint);
+      setIsVisible(scrollTop >= visibilityOffset);
     };
 
     handleScroll();

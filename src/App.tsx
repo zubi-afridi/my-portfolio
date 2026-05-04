@@ -13,6 +13,44 @@ import ScrollToTop from "./components/ScrollToTop";
 import { AOS_DURATION, LOADER_DURATION } from "./lib/animation";
 
 const THEME_STORAGE_KEY = "theme";
+const AOS_ANIMATION_ATTRIBUTES = [
+  "data-aos",
+  "data-aos-delay",
+  "data-aos-duration",
+  "data-aos-easing",
+  "data-aos-offset",
+  "data-aos-anchor",
+  "data-aos-anchor-placement",
+  "data-aos-once",
+];
+
+const getAosTiming = (element: HTMLElement) => {
+  const delay = Number(element.getAttribute("data-aos-delay") ?? 0);
+  const duration = Number(
+    element.getAttribute("data-aos-duration") ?? AOS_DURATION,
+  );
+
+  return {
+    delay: Number.isFinite(delay) ? delay : 0,
+    duration: Number.isFinite(duration) ? duration : AOS_DURATION,
+  };
+};
+
+const removeAosAnimation = (element: HTMLElement) => {
+  AOS_ANIMATION_ATTRIBUTES.forEach((attribute) => {
+    element.removeAttribute(attribute);
+  });
+
+  element.classList.remove("aos-init", "aos-animate");
+};
+
+const removeAnimatedAosElements = () => {
+  document.querySelectorAll<HTMLElement>("[data-aos].aos-animate").forEach(
+    (element) => {
+      removeAosAnimation(element);
+    },
+  );
+};
 
 const getInitialDarkMode = () => {
   if (typeof window === "undefined") {
@@ -41,12 +79,32 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const handleAosIn = (event: Event) => {
+      const element = (event as CustomEvent<HTMLElement>).detail;
+
+      if (!(element instanceof HTMLElement)) {
+        return;
+      }
+
+      const { delay, duration } = getAosTiming(element);
+
+      window.setTimeout(() => {
+        removeAosAnimation(element);
+      }, delay + duration + 80);
+    };
+
+    document.addEventListener("aos:in", handleAosIn);
+
     AOS.init({
       duration: AOS_DURATION,
       easing: "ease-out-cubic",
       once: true,
       offset: 100,
     });
+
+    return () => {
+      document.removeEventListener("aos:in", handleAosIn);
+    };
   }, []);
 
   useEffect(() => {
@@ -69,6 +127,7 @@ const App = () => {
   }, [darkmode]);
 
   const toggleDarkMode = () => {
+    removeAnimatedAosElements();
     setDarkmode((currentMode) => !currentMode);
   };
 
@@ -91,11 +150,13 @@ const App = () => {
         {!isLoading && (
           <>
             <Navbar darkMode={darkmode} toggleDarkMode={toggleDarkMode} />
-            <Hero darkMode={darkmode} />
-            <About darkMode={darkmode} />
-            <Skills darkMode={darkmode} />
-            <Projects darkMode={darkmode} />
-            <Contact darkMode={darkmode} />
+            <main>
+              <Hero darkMode={darkmode} />
+              <About darkMode={darkmode} />
+              <Skills darkMode={darkmode} />
+              <Projects darkMode={darkmode} />
+              <Contact darkMode={darkmode} />
+            </main>
             <Footer darkMode={darkmode} />
             <ScrollToTop darkMode={darkmode} />
           </>

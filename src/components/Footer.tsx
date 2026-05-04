@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { SectionContainer } from "./layout/SectionContainer";
 
 const Footer = ({ darkMode }: { darkMode: boolean }) => {

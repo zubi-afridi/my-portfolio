@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, type Variants, AnimatePresence } from "framer-motion";
+import { motion, type Variants, AnimatePresence } from "motion/react";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { EASE_OUT, ENTRANCE_DURATION, QUICK_DURATION } from "../lib/animation";
 
@@ -139,6 +139,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
           <div className="flex items-center gap-2 md:gap-3">
             <motion.button
               type="button"
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
               onClick={toggleDarkMode}
               className={`p-2 rounded-full cursor-pointer transition-all duration-200 ${colors.toggleBg} ${colors.toggleIcon}`}
               whileHover={{ scale: 1.1 }}
@@ -162,6 +163,9 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             {/* Mobile Menu Toggle - NOW MATCHES THEME BUTTON SIZE AND STYLE */}
             <button
               type="button"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-controls="mobile-navigation"
+              aria-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`md:hidden p-2 rounded-full transition-all duration-200 ${colors.mobileToggle} ${colors.textPrimary}`}
             >
@@ -181,6 +185,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               className="md:hidden absolute top-[115%] left-0 w-full px-2"
             >
               <div
+                id="mobile-navigation"
                 className={`
                   ${
                     darkMode

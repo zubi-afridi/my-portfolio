@@ -1,5 +1,5 @@
-export const LOADER_DURATION = 1500;
-export const LOADER_EXIT_DURATION = 320;
+export const LOADER_DURATION = 700;
+export const LOADER_EXIT_DURATION = 220;
 
 export const AOS_DURATION = 650;
 export const AOS_DELAY_STEP = 80;
