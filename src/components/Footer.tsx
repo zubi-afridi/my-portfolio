@@ -26,7 +26,6 @@ const Footer = ({ darkMode }: { darkMode: boolean }) => {
       className={`${theme.bg} ${theme.border} border-t py-10 transition-all duration-200`}
     >
       <SectionContainer className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:gap-4">
-        {/* Left: Branding */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
           <h2
             className={`text-2xl font-bold ${theme.textPrimary} tracking-tight`}
@@ -38,7 +37,6 @@ const Footer = ({ darkMode }: { darkMode: boolean }) => {
           </p>
         </div>
 
-        {/* Center: Navigation Links */}
         <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
           {navLinks.map((link) => (
             <motion.a
@@ -53,7 +51,6 @@ const Footer = ({ darkMode }: { darkMode: boolean }) => {
           ))}
         </nav>
 
-        {/* Right: Copyright */}
         <div
           className={`text-sm ${theme.textSecondary} font-medium text-center lg:text-right`}
         >

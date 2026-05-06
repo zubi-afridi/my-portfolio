@@ -95,8 +95,6 @@ const Hero = ({ darkMode }: HeroProps) => {
 
   const theme = darkMode ? darkTheme : lightTheme;
 
-  // ── Animation variants ──────────────────────────────────────────────────────
-
   const containerVariants: Variants = {
     hidden: {},
     visible: {
@@ -185,7 +183,6 @@ const Hero = ({ darkMode }: HeroProps) => {
             initial="hidden"
             animate="visible"
           >
-            {/* Social icons row — inner stagger */}
             <motion.div
               className="flex justify-center lg:justify-start gap-4 sm:gap-6 mb-6 sm:mb-7 w-full"
               variants={containerVariants}
@@ -212,7 +209,6 @@ const Hero = ({ darkMode }: HeroProps) => {
             <HeroHeadline fadeUp={fadeUp} textPrimary={theme.textPrimary} />
             <RotatingRole fadeUp={fadeUp} textPrimary={theme.textPrimary} />
 
-            {/* Description */}
             <motion.p
               variants={fadeUp}
               className={`mb-6 sm:mb-8 leading-relaxed max-w-md sm:max-w-lg ${theme.textSecondary} text-base sm:text-lg`}
@@ -223,7 +219,6 @@ const Hero = ({ darkMode }: HeroProps) => {
               user-friendly digital experiences.
             </motion.p>
 
-            {/* Buttons */}
             <motion.div variants={fadeUp} className="w-full pt-4 sm:pt-6">
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4">
                 <motion.a
@@ -256,7 +251,6 @@ const Hero = ({ darkMode }: HeroProps) => {
             </motion.div>
           </motion.div>
 
-          {/* ── Right: image slides in from right ── */}
           <motion.div
             className="lg:w-1/2 w-full max-w-md lg:max-w-lg mt-8 lg:mt-0 flex justify-center"
             variants={slideInRight}
@@ -264,7 +258,6 @@ const Hero = ({ darkMode }: HeroProps) => {
             animate="visible"
           >
             <div className="relative w-4/5 sm:w-3/4 lg:w-full">
-              {/* Blob backgrounds behind hero image */}
               <div className="absolute inset-0 -z-10 flex items-center justify-center">
                 <div
                   className={`absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full mix-blend-multiply filter blur-[50px] opacity-30 animate-blob ${
@@ -297,7 +290,6 @@ const Hero = ({ darkMode }: HeroProps) => {
                 />
               </motion.div>
 
-              {/* Hi bubble: springs in after image settles */}
               <motion.img
                 src={hi}
                 alt="Hi icon"
@@ -314,7 +306,6 @@ const Hero = ({ darkMode }: HeroProps) => {
           </motion.div>
       </SectionContainer>
 
-      {/* Decorative circle blooms in slowly */}
       <motion.div
         variants={circleFade}
         initial="hidden"

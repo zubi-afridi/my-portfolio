@@ -175,7 +175,6 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
           </header>
 
           <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.75fr)] lg:gap-12">
-            {/* Contact Form */}
             <motion.form
               data-aos="fade-right"
               data-aos-delay={AOS_DELAY_STEP}
@@ -373,15 +372,14 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
               </motion.button>
             </motion.form>
 
-            {/* Direct Channels Card */}
             <motion.aside
               data-aos="fade-left"
               data-aos-delay={AOS_DELAY_STEP * 2}
               data-aos-duration={AOS_DURATION}
-              className={`flex h-full flex-col justify-center rounded-[1.5rem] border px-6 py-8 text-center backdrop-blur-xl transition-all duration-200 sm:p-10 ${theme.card}`}
+              className={`flex h-full flex-col justify-center rounded-3xl border px-6 py-8 text-center backdrop-blur-xl transition-all duration-200 sm:p-10 ${theme.card}`}
             >
               <div
-                className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[1rem] border ${theme.iconBox}`}
+                className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border ${theme.iconBox}`}
               >
                 <Mail size={28} strokeWidth={2.2} />
               </div>
@@ -415,7 +413,7 @@ const Contact = ({ darkMode }: { darkMode: boolean }) => {
                       <Icon
                         className={`h-6 w-6 shrink-0 transition-transform duration-200 group-hover:scale-110 ${theme.accent}`}
                       />
-                      <span className="min-w-0 break-words text-base font-normal sm:text-lg">
+                      <span className="min-w-0 wrap-break-word text-base font-normal sm:text-lg">
                         {social.value}
                       </span>
                     </motion.a>

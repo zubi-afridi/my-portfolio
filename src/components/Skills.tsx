@@ -105,9 +105,7 @@ const MarqueeRow = ({
           className={`w-6 h-6 ${
             darkMode ? "text-indigo-400" : "text-indigo-500"
           } ${
-            skill.name === "GSAP"
-              ? "[&_path]:fill-current [&_*]:fill-current"
-              : ""
+            skill.name === "GSAP" ? "[&_path]:fill-current **:fill-current" : ""
           } group-hover/card:scale-110 transition-transform duration-200`}
         />
         <span
@@ -200,7 +198,6 @@ const Skills = ({ darkMode }: { darkMode: boolean }) => {
 
       <SectionContainer>
         <div className="relative">
-          {/* Gradient overlays for the fade effect at edges */}
           <div
             className={`absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 pointer-events-none bg-linear-to-r ${
               darkMode ? "from-gray-900" : "from-gray-50"

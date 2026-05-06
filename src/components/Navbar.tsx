@@ -31,7 +31,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
     toggleBg: "bg-slate-100 hover:bg-slate-200",
     toggleIcon: "text-slate-700",
     mobileMenu: "bg-white border-slate-200",
-    mobileToggle: "bg-slate-100 hover:bg-slate-200", // Matches theme toggle
+    mobileToggle: "bg-slate-100 hover:bg-slate-200",
   };
 
   const darkColors = {
@@ -45,7 +45,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
     toggleBg: "bg-white/5 hover:bg-white/10",
     toggleIcon: "text-yellow-400",
     mobileMenu: "bg-slate-900 border-white/10",
-    mobileToggle: "bg-white/5 hover:bg-white/10", // Matches theme toggle
+    mobileToggle: "bg-white/5 hover:bg-white/10",
   };
 
   const colors = darkMode ? darkColors : lightColors;
@@ -89,7 +89,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
         className={`${colors.navBg} backdrop-blur-xl rounded-2xl shadow-2xl border px-4 md:px-6 py-2 w-full max-w-[calc(100vw-2rem)] md:w-auto md:min-w-fit`}
       >
         <div className="flex items-center justify-between gap-4 md:gap-8">
-          {/* Logo */}
           <motion.a
             href="/"
             onClick={handleLogoClick}
@@ -103,7 +102,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             </span>
           </motion.a>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {navItems.map((item, i) => (
               <motion.a
@@ -135,7 +133,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             ))}
           </div>
 
-          {/* Controls (Toggle + Hire Button + Mobile Menu) */}
           <div className="flex items-center gap-2 md:gap-3">
             <motion.button
               type="button"
@@ -160,7 +157,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               Hire Me
             </motion.a>
 
-            {/* Mobile Menu Toggle - NOW MATCHES THEME BUTTON SIZE AND STYLE */}
             <button
               type="button"
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -174,7 +170,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div

@@ -10,7 +10,7 @@ const About = ({ darkMode }: AboutProps) => {
   return (
     <Section
       id="about"
-      className="flex items-center justify-center !pt-4 sm:!pt-6 lg:!pt-8"
+      className="flex items-center justify-center pt-4! sm:pt-6! lg:pt-8!"
     >
       <SectionContainer className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2">
         <figure
@@ -20,7 +20,6 @@ const About = ({ darkMode }: AboutProps) => {
           className="flex flex-wrap justify-center gap-4 relative order-1"
         >
           <div className="relative w-72 h-72 lg:w-80 lg:h-80 flex items-center justify-center">
-            {/* Image background */}
             <div
               className="about-image-blob absolute -inset-4 -rotate-6 lg:-inset-10"
               data-aos="zoom-in"

@@ -122,7 +122,6 @@ const App = () => {
         darkmode ? "dark" : "light",
       );
     } catch {
-      // Theme switching should still work if storage is unavailable.
     }
   }, [darkmode]);
 

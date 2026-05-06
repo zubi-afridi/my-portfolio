@@ -39,7 +39,7 @@ const PortfolioLoader = ({
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#0d182e] transition-opacity ${
+      className={`fixed inset-0 z-9999 flex items-center justify-center bg-[#0d182e] transition-opacity ${
         isLeaving ? "opacity-0" : "opacity-100"
       }`}
       style={{ transitionDuration: `${LOADER_EXIT_DURATION}ms` }}
@@ -64,7 +64,7 @@ const PortfolioLoader = ({
 
         <div className="mt-8 h-[2px] w-36 overflow-hidden bg-white/10 sm:w-44 md:w-52">
           <div
-            className="loader-progress h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-400"
+            className="loader-progress h-full bg-linear-to-r from-indigo-600 via-purple-600 to-indigo-400"
             style={
               {
                 "--loader-time": `${duration}ms`,

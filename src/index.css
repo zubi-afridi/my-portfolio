@@ -110,7 +110,6 @@ html {
   animation-delay: 2s;
 }
 
-/* css for loader */
 @keyframes loaderProgress {
   0% {
     width: 0%;
