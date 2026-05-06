@@ -1,15 +1,20 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import About from "./components/About";
-import Skills from "./components/Skills";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
+
+// Critical components
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 import PortfolioLoader from "./components/PortfolioLoader";
-import ScrollToTop from "./components/ScrollToTop";
+
+// Lazy-loaded components
+const About = lazy(() => import("./components/About"));
+const Skills = lazy(() => import("./components/Skills"));
+const Projects = lazy(() => import("./components/Projects"));
+const Contact = lazy(() => import("./components/Contact"));
+const Footer = lazy(() => import("./components/Footer"));
+const ScrollToTop = lazy(() => import("./components/ScrollToTop"));
+
 import { AOS_DURATION, LOADER_DURATION } from "./lib/animation";
 
 const THEME_STORAGE_KEY = "theme";
@@ -148,7 +153,7 @@ const App = () => {
         }`}
       >
         {!isLoading && (
-          <>
+          <Suspense fallback={null}>
             <Navbar darkMode={darkmode} toggleDarkMode={toggleDarkMode} />
             <main>
               <Hero darkMode={darkmode} />
@@ -159,7 +164,7 @@ const App = () => {
             </main>
             <Footer darkMode={darkmode} />
             <ScrollToTop darkMode={darkmode} />
-          </>
+          </Suspense>
         )}
       </div>
     </>

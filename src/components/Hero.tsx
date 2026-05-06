@@ -15,7 +15,6 @@ import {
 
 const rotatingLines = [
   "Frontend Website Developer",
-  "React & Next.js Developer",
 ];
 
 interface HeroProps {
@@ -174,16 +173,12 @@ const Hero = ({ darkMode }: HeroProps) => {
     },
   };
 
-  // ── Typewriter Logic ──────────────────────────────────────────────────────
-  // ────────────────────────────────────────────────────────────────────────────
-
   return (
     <section
       id="home"
       className="body-font relative z-10 flex items-center overflow-hidden"
     >
       <SectionContainer className="flex flex-col-reverse items-center justify-between pb-6 pt-24 sm:pb-8 sm:pt-28 lg:flex-row lg:pb-10 lg:pt-32">
-          {/* ── Left: staggered children ── */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col items-center lg:items-start text-center lg:text-left mb-12 lg:mb-0"
             variants={containerVariants}
